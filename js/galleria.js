@@ -11,6 +11,7 @@ nappi.addEventListener('click', function(evt) {
 });
 nappi.addEventListener('mouseenter', function(evt) {
     if(vari%2 === 0) {
+        vari = 0;
         document.body.style.backgroundColor = 'black';
         nappi.innerText = 'vaalea teema';
     } else {
@@ -21,6 +22,7 @@ nappi.addEventListener('mouseenter', function(evt) {
 });
 nappi.addEventListener('mouseleave', function(evt) {
     if(vari%2 === 0) {
+        vari = 0;
         document.body.style.backgroundColor = 'black';
         nappi.innerText = 'vaalea teema';
     } else {

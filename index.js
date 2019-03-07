@@ -1,26 +1,29 @@
-import Feature from 'ol/Feature.js';
-import Map from 'ol/Map.js';
-import Overlay from 'ol/Overlay.js';
-import View from 'ol/View.js';
-import Point from 'ol/geom/Point.js';
-import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer.js';
-import TileJSON from 'ol/source/TileJSON.js';
-import VectorSource from 'ol/source/Vector.js';
-import {Icon, Style} from 'ol/style.js';
+import 'ol/ol.css';
+import {Map, View} from 'ol';
+import TileLayer from 'ol/layer/Tile';
+import OSM from 'ol/source/OSM';
+import Point from "ol/geom/Point";
+import Style from "ol/style/Style";
+import Icon from "ol/style/Icon";
+import Feature from "ol/Feature";
+import Overlay from "ol/Overlay";
+import VectorSource from "ol/source/Vector";
+import VectorLayer from "ol/layer/Vector";
+import {fromLonLat} from "ol/proj";
 
 var iconFeature = new Feature({
-    geometry: new Point([0, 0]),
-    name: 'Tämä on popup',
+    geometry: new Point(fromLonLat([24.945831, 60.192059])),
+    name: 'dasadfgeththethte',
     population: 4000,
     rainfall: 500
 });
 
 var iconStyle = new Style({
     image: new Icon(/** @type {module:ol/style/Icon~Options} */ ({
-        anchor: [0.5, 200],
+        anchor: [0.5, 500],
         anchorXUnits: 'fraction',
         anchorYUnits: 'pixels',
-        src: "/data/mark.png",
+        src: 'data/mark.png',
         scale: 0.1
     }))
 });
@@ -35,19 +38,16 @@ var vectorLayer = new VectorLayer({
     source: vectorSource
 });
 
-var rasterLayer = new TileLayer({
-    source: new TileJSON({
-        url: 'https://api.tiles.mapbox.com/v3/mapbox.geography-class.json?secure',
-        crossOrigin: ''
-    })
-});
-
-var map = new Map({
-    layers: [rasterLayer, vectorLayer],
+const map = new Map({
     target: document.getElementById('map'),
+    layers: [
+        new TileLayer({
+            source: new OSM()
+        }), vectorLayer
+    ],
     view: new View({
-        center: [0, 0],
-        zoom: 3
+        center: [0,0],
+        zoom: 5
     })
 });
 
