@@ -17,10 +17,11 @@ var iconFeature = new Feature({
 
 var iconStyle = new Style({
     image: new Icon(/** @type {module:ol/style/Icon~Options} */ ({
-        anchor: [0.5, 46],
+        anchor: [0.5, 200],
         anchorXUnits: 'fraction',
         anchorYUnits: 'pixels',
-        src: 'https://upload.wikimedia.org/wikipedia/commons/7/78/Maurice_Ravel_1925.jpg'
+        src: "/data/mark.png",
+        scale: 0.1
     }))
 });
 

@@ -50260,10 +50260,11 @@ var iconStyle = new _style.Style({
   image: new _style.Icon(
   /** @type {module:ol/style/Icon~Options} */
   {
-    anchor: [0.5, 46],
+    anchor: [0.5, 200],
     anchorXUnits: 'fraction',
     anchorYUnits: 'pixels',
-    src: 'https://upload.wikimedia.org/wikipedia/commons/7/78/Maurice_Ravel_1925.jpg'
+    src: "/data/mark.png",
+    scale: 0.1
   })
 });
 iconFeature.setStyle(iconStyle);
@@ -50352,7 +50353,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60325" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51609" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
