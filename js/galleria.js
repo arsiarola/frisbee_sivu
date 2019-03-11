@@ -4,7 +4,7 @@ function view(imgsrc) {
     let viewin = window.open(imgsrc, 'viewin', 'width=1000,height=600');
 }
 
-const nappi = document.getElementById('nappi');
+const nappi = document.getElementById('teemanVaihto');
 const ylapalkki = document.getElementById('ylapalkki');
 const yhteenvetoButton = document.getElementById('yhteenvetoButton');
 let vari = 0;
