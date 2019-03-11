@@ -6,7 +6,7 @@ function view(imgsrc) {
 
 const nappi = document.getElementById('nappi');
 const ylapalkki = document.getElementById('ylapalkki');
-let vari = 0;
+let vari = 1;
 
 nappi.addEventListener('click', function(evt) {
     vari++;
@@ -20,14 +20,19 @@ function teemanVaihto() {
         vari = 0;
         document.body.style.backgroundColor = 'black';
         ylapalkki.style.backgroundColor = 'black';
+        ylapalkki.style.backgroundImage = "url('img/frisbeeKuvaValkoinen.png')";
+
         nappi.innerText = 'vaalea teema';
     } else {
         document.body.style.backgroundColor = 'white';
         ylapalkki.style.backgroundColor = 'white';
+        ylapalkki.style.backgroundImage = "url('img/frisbeeKuvaMusta.png')";
+
+
         nappi.innerText = 'tumma teema';
     }
     vari++;
 }
 
-teemanVaihto();
-teemanVaihto();
+// teemanVaihto();
+// teemanVaihto();

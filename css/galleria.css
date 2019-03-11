@@ -48,19 +48,31 @@ h1 {
 }
 #ylapalkki {
     width: 100%;
-    height: 100px;
-    background-color: white;
-
+    height: 120px;
+    background-size: auto 100%;
+    background-image: url("../img/frisbeeKuvaValkoinen.png");
+    background-position: right;
+    background-repeat: no-repeat;
+    margin-bottom: 10px;
 }
 
 #homeButton {
-    padding: 20px 20px 20px 20px;
+    padding: 20px 36px 15px 20px;
     margin: 20px 0px 20px 10px;
     border-radius: 5px;
+    background-size: 50px;
+    background-image:url('../img/homeButton.png');
+    background-repeat:no-repeat;
+    background-position:center;  padding-left:15px;
 }
 
 #yhteenvetoButton {
     padding: 20px 20px 20px 20px;
     margin: 20px 0px 20px 40%;
     border-radius: 5px;
+}
+
+#nappi {
+    border-radius: 5px;
+    padding: 5px 5px 5px 5px ;
 }
