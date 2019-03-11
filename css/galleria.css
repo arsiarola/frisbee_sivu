@@ -50,15 +50,17 @@ h1 {
     width: 100%;
     height: 100px;
     background-color: white;
-}
-
-figcaption {
-    display: inline;
-    text-align: center;
-
 
 }
 
-a{
-    width: 25%;
+#homeButton {
+    padding: 20px 20px 20px 20px;
+    margin: 20px 0px 20px 10px;
+    border-radius: 5px;
+}
+
+#yhteenvetoButton {
+    padding: 20px 20px 20px 20px;
+    margin: 20px 0px 20px 40%;
+    border-radius: 5px;
 }
