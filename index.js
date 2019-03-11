@@ -200,7 +200,7 @@ function makeMarker(lat, lon, name) {
             anchor: [0.5, 500],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
-            src: 'data/mark.png',
+            src: "data/mark.png",
             scale: 0.1
         }))
     });
