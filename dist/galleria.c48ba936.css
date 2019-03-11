@@ -11,14 +11,13 @@ body {
 }
 
 img {
-    width: 20%;
+    width: 25%;
     max-width: 200px;
-    margin: 10% 3% 3% 3%;
+    margin: 3% 3% 3% 3%;
     border-radius: 10%;
     transition: transform .25s;
     text-align: center;
     caption-side: bottom;
-    display: inline;
 
 }
 img:hover {
@@ -53,3 +52,9 @@ h1 {
     background-color: white;
 }
 
+figcaption {
+    display: inline;
+    text-align: center;
+
+
+}

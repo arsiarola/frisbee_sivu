@@ -23,8 +23,8 @@ function teemanVaihto() {
         nappi.innerText = 'vaalea teema';
     } else {
         document.body.style.backgroundColor = 'white';
-        nappi.innerText = 'tumma teema';
         ylapalkki.style.backgroundColor = 'white';
+        nappi.innerText = 'tumma teema';
     }
     vari++;
 }
