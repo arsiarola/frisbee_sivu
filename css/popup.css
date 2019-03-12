@@ -8,10 +8,10 @@
     border: 1px solid #cccccc;
     bottom: 12px;
     left: -50px;
-    min-width: 180px;
+    min-width: 240px;
 }
 .popover-content {
-    min-width: 180px;
+    min-width: 240px;
 }
 
 .ol-popup:after, .ol-popup:before {

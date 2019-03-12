@@ -1,3 +1,4 @@
+'use strict';
 
 var markerArray = [];
 //markerArray.push(makeMarker(63, 23, 'a', 'b'));
@@ -137,15 +138,24 @@ map.addOverlay(popup);
 })*/
 
 function content_creator(feature, evt) {
-    /*fetch('api.openweathermap.org/data/2.5/weather?lat=' + feature.get('lat') + '&lon=' + feature.get('lon'))                 // Käynnistetään haku. Vakiometodi on GET.
-        .then(function(vastaus){        // Sitten kun haku on valmis,
-            return vastaus.json();      // muutetaan ladattu tekstimuotoinen JSON JavaScript-olioksi
-        }).then(function(json){         // Sitten otetaan ladattu data vastaan ja
-        console.log(json);            // kutsutaan naytaKuva-funktiota ja lähetetään ladattu data siihen parametrinä.
-    }).catch(function(error){           // Jos tapahtuu virhe,
-        console.log(error);             // kirjoitetaan virhe konsoliin.
-    });*/
     content.innerHTML = '<a target="_blank" href=\"' + feature.get('website') + '\">' + feature.get('name') + '</a>';
+    fetch('http://api.openweathermap.org/data/2.5/weather?lat=' + feature.get('lat') + '&lon=' + feature.get('lon') + '&APPID=aad7575441a6804bb37fbe37bbf698bf')                 // Käynnistetään haku. Vakiometodi on GET.
+        .then(function(vastaus){        // Sitten kun haku on valmis,
+            return vastaus.json();                  // muutetaan ladattu tekstimuotoinen JSON JavaScript-olioksi
+        }).then(function(json){         // Sitten otetaan ladattu data vastaan ja
+        weather_creator(json);                              // kutsutaan naytaKuva-funktiota ja lähetetään ladattu data siihen parametrinä.
+    }).catch(function(error){               // Jos tapahtuu virhe,
+        console.log(error);             // kirjoitetaan virhe konsoliin.
+    });
+
+}
+
+function weather_creator(json) {    // 273.16
+    console.log(json);
+    const kelvin_conversion = 273.16;
+    content.innerHTML = content.innerHTML + '<br>' + '<img src=http://openweathermap.org/img/w/' + json.weather[0].icon + '.png>';
+    content.innerHTML = content.innerHTML + (parseFloat(json.main.temp) - kelvin_conversion).toFixed(1).toString() + ' °C, ';
+    content.innerHTML = content.innerHTML + json.wind.speed + ' m/s';
 }
 
 map.on('click', function(evt) {
