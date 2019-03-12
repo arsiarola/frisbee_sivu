@@ -126,7 +126,12 @@ map.addOverlay(popup);
 function marker_popup_content(feature, evt) {
     //var hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(evt.coordinate));
     //return '<p>' + feature.get('name') + '</p><code>' + hdms + '</code>';
-    return '<p>' + feature.get('name') + '</p>';
+    var url = feature.get('website');
+
+    return '<a href=\"' + url + '\">' + feature.get('name') + '</a>';
+    console.log(text);
+    //return '<a href=' + url + '>' + feature.get('name') + '</a>';
+    return '<a href="https://frisbeegolfradat.fi/rata/simon_frisbeegolfrata/">aaa</a>';
 }
 
 map.on('click', function(evt) {
