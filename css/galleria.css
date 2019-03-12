@@ -1,7 +1,11 @@
 #map {
     /*height: 250px;
     width:250px;*/
-    position: relative;
+    /*position: relative;*/
+    width: 90%;
+    margin: auto;
+    padding: 0.5% 0.5% 0.5% 0.5%;
+    background-color: black;
 }
 p {
     color: rgb(0, 0, 255);
@@ -71,12 +75,12 @@ h1 {
 }
 
 #yhteenvetoButton {
-    padding: 20px 50px 20px 50px;
+    padding: 20px 46px 20px 46px;
     margin-top: 28px;
     border-radius: 5px;
     background-color: transparent;
     border-color:transparent;
-    background-size: 100%;
+    background-size: 90%;
     background-image:url('../img/yhteenvetoMusta.png');
     background-repeat:no-repeat;
     background-position:center;  padding-left:15px;

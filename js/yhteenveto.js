@@ -3,8 +3,6 @@
 const nappi = document.getElementById('teemanVaihto');
 const ylapalkki = document.getElementById('ylapalkki');
 const yhteenvetoButton = document.getElementById('yhteenvetoButton');
-const homeButton = document.getElementById('homeButton');
-const mappi = document.getElementById('map');
 let vari = 0;
 console.log(vari);
 
@@ -18,26 +16,25 @@ nappi.addEventListener('click', function(evt) {
     vari++;
 });
 
-nappi.addEventListener('mouseenter', teemanVaihtoHome);
-nappi.addEventListener('mouseleave', teemanVaihtoHome);
+nappi.addEventListener('mouseenter', teemanVaihtoYhteenveto);
+nappi.addEventListener('mouseleave', teemanVaihtoYhteenveto);
 
-function teemanVaihtoHome() {
+
+function teemanVaihtoYhteenveto() {
     if(vari%2 === 0) {
         vari = 0;
         document.body.style.backgroundColor = 'black';
         ylapalkki.style.backgroundColor = 'black';
-        mappi.style.backgroundColor = 'white';
         ylapalkki.style.backgroundImage = "url('img/frisbeeKuvaValkoinen.png')";
+        yhteenvetoButton.style.borderColor = 'lightgray';
         yhteenvetoButton.style.backgroundImage = "url('img/yhteenvetoValkoinen.png')";
-        homeButton.style.borderColor = 'lightgray';
         nappi.innerText = 'vaalea teema';
     } else {
         document.body.style.backgroundColor = 'white';
         ylapalkki.style.backgroundColor = 'white';
-        mappi.style.backgroundColor = 'black';
         ylapalkki.style.backgroundImage = "url('img/frisbeeKuvaMusta.png')";
+        yhteenvetoButton.style.borderColor = 'lightgray';
         yhteenvetoButton.style.backgroundImage = "url('img/yhteenvetoMusta.png')";
-        homeButton.style.borderColor = 'lightgray';
         nappi.innerText = 'tumma teema';
     }
     vari++;
@@ -45,7 +42,6 @@ function teemanVaihtoHome() {
     console.log(vari);
 
 }
-
 function tallennaVari(data) {
     localStorage.setItem('variData', JSON.stringify(data));
 }
@@ -55,5 +51,5 @@ function getVariInfo() {
     return parseInt(JSON.parse(variInfo));
 }
 
-teemanVaihtoHome();
-teemanVaihtoHome();
+teemanVaihtoYhteenveto();
+teemanVaihtoYhteenveto();
