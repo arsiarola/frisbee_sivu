@@ -1,7 +1,11 @@
 #map {
     /*height: 250px;
     width:250px;*/
-    position: relative;
+    /*position: relative;*/
+    width: 90%;
+    margin: auto;
+    padding: 0.5% 0.5% 0.5% 0.5%;
+    background-color: black;
 }
 p {
     color: rgb(0, 0, 255);
