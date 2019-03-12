@@ -26,12 +26,14 @@ function teemanVaihtoYhteenveto() {
         document.body.style.backgroundColor = 'black';
         ylapalkki.style.backgroundColor = 'black';
         ylapalkki.style.backgroundImage = "url('img/frisbeeKuvaValkoinen.png')";
+        yhteenvetoButton.style.borderColor = 'lightgray';
         yhteenvetoButton.style.backgroundImage = "url('img/yhteenvetoValkoinen.png')";
         nappi.innerText = 'vaalea teema';
     } else {
         document.body.style.backgroundColor = 'white';
         ylapalkki.style.backgroundColor = 'white';
         ylapalkki.style.backgroundImage = "url('img/frisbeeKuvaMusta.png')";
+        yhteenvetoButton.style.borderColor = 'lightgray';
         yhteenvetoButton.style.backgroundImage = "url('img/yhteenvetoMusta.png')";
         nappi.innerText = 'tumma teema';
     }

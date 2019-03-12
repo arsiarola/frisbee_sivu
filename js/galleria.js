@@ -3,6 +3,7 @@
 const nappi = document.getElementById('teemanVaihto');
 const ylapalkki = document.getElementById('ylapalkki');
 const yhteenvetoButton = document.getElementById('yhteenvetoButton');
+const homeButton = document.getElementById('homeButton');
 const mappi = document.getElementById('map');
 let vari = 0;
 console.log(vari);
@@ -28,6 +29,7 @@ function teemanVaihtoHome() {
         mappi.style.backgroundColor = 'white';
         ylapalkki.style.backgroundImage = "url('img/frisbeeKuvaValkoinen.png')";
         yhteenvetoButton.style.backgroundImage = "url('img/yhteenvetoValkoinen.png')";
+        homeButton.style.borderColor = 'lightgray';
         nappi.innerText = 'vaalea teema';
     } else {
         document.body.style.backgroundColor = 'white';
@@ -35,6 +37,7 @@ function teemanVaihtoHome() {
         mappi.style.backgroundColor = 'black';
         ylapalkki.style.backgroundImage = "url('img/frisbeeKuvaMusta.png')";
         yhteenvetoButton.style.backgroundImage = "url('img/yhteenvetoMusta.png')";
+        homeButton.style.borderColor = 'lightgray';
         nappi.innerText = 'tumma teema';
     }
     vari++;
