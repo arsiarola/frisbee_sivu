@@ -91,20 +91,31 @@
             width: 100%;
             height: 100%;
         }
+
+        #video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+        }
     </style>
   </head>
   <body>
     <iframe id="contentFrame" frameBorder="0" allowfullscreen></iframe>
+    <video loop id="video">
+
+    </video>
     <div id="dialogWrap">
         <div id="dialogWrapCell">
             <div id="mainDialog">
-                <div id="dialogText">tästä portaalista pääsee läpi vain isot äijät (sonnit)</div>
+                <div id="dialogText">Tästä portaalista pääsee läpi vain isot äijät (sonnit), ethän myöskään laita yksityistietojasi tähän.</div>
                 <div id="passArea">
                     <p id="passwordPrompt">Salasana</p>
                     <input id="pass" type="password" name="pass">
                     <div>
                         <span id="messageWrapper">
-                            <span id="invalidPass" class="notifyText">hähää, väärin meni bro!</span>
+                            <span id="invalidPass" class="notifyText">väärin meni!</span>
                             <span id="success" class="notifyText">teretulemast</span>
                             &nbsp;
                         </span>
@@ -205,7 +216,18 @@
             passEl.disabled = true;
             alert("This page is meant to be used with the encryption tool. It doesn't work standalone.");
         }
-        
+        function prank(evt) {
+          const video = document.getElementById("video");
+          var source = document.createElement('source');
+          const divs = document.getElementById('dialogWrap');
+          divs.parentNode.removeChild(divs);
+          source.setAttribute('src', 'rickroll.mp4');
+          source.setAttribute('type','video/mp4');
+
+          video.appendChild(source);
+          video.play();
+
+        }
         function doSubmit(evt) {
             try {
                 var decrypted = decryptFile(CryptoJS.enc.Base64.parse(pl.data), passEl.value, CryptoJS.enc.Base64.parse(pl.salt), CryptoJS.enc.Base64.parse(pl.iv));
@@ -225,6 +247,7 @@
             } catch (e) {
                 invalidPassEl.style.display = "inline";
                 passEl.value = "";
+                prank();
             }
         }
         
