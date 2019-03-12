@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
-    <title>salainen sivu</title>
+    <title>sisäänkirjautuminen</title>
     <style>
         html, body {
             margin: 0;
@@ -103,20 +103,17 @@
   </head>
   <body>
     <iframe id="contentFrame" frameBorder="0" allowfullscreen></iframe>
-    <video loop id="video">
-
-    </video>
     <div id="dialogWrap">
         <div id="dialogWrapCell">
             <div id="mainDialog">
-                <div id="dialogText">Tästä portaalista pääsee läpi vain isot äijät (sonnit), ethän myöskään laita yksityistietojasi tähän.</div>
+                <div id="dialogText">Takahuone, painamalla 'kirjaudu' hyväksyt riskit. Ethän myöskään laita yksityistietoja salasana-kenttään.</div>
                 <div id="passArea">
                     <p id="passwordPrompt">Salasana</p>
                     <input id="pass" type="password" name="pass">
                     <div>
                         <span id="messageWrapper">
-                            <span id="invalidPass" class="notifyText">väärin meni!</span>
-                            <span id="success" class="notifyText">teretulemast</span>
+                            <span id="invalidPass" class="notifyText">olet väärässä paikassa</span>
+                            <span id="success" class="notifyText">Tervetuloa</span>
                             &nbsp;
                         </span>
                         <button id="submitPass" type="button">kirjaudu</button>
@@ -217,13 +214,18 @@
             alert("This page is meant to be used with the encryption tool. It doesn't work standalone.");
         }
         function prank(evt) {
-          const video = document.getElementById("video");
+          //const video = document.getElementById("video");
+          var video = document.createElement('video');
           var source = document.createElement('source');
           const divs = document.getElementById('dialogWrap');
-          divs.parentNode.removeChild(divs);
+
+
+          video.setAttribute('id', 'video');
+          video.setAttribute('loop', 'True');
           source.setAttribute('src', 'rickroll.mp4');
           source.setAttribute('type','video/mp4');
 
+          divs.appendChild(video);
           video.appendChild(source);
           video.play();
 
