@@ -56,13 +56,13 @@ for maps_linkki in valitut:
     split_str = maps_linkki.split('=')
     address = split_str[1]
     coordinates = []
-    if "," not in address:
+    if "." not in address:
         response = requests.get("https://nominatim.openstreetmap.org/search/" + address + "?format=json&addressdetails=1&limit=1&polygon_svg=1")
         data = response.json()
         coordinates.append(data[0]['lat'])
         coordinates.append(data[0]['lon'])
     else:
-        coordinates = address.split(',')
+        coordinates = address.split('.')
     lat = coordinates[0]
     lon = coordinates[1]
     latitudes.append(lat)
