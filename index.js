@@ -64,7 +64,10 @@ var overlay = new ol.Overlay({
     autoPan: true,
     autoPanAnimation: {
         duration: 250
-    }
+    },
+    positioning: 'bottom-center',
+    //stopEvent: false,
+    offset: [0, -50]
 });
 
 
@@ -100,7 +103,7 @@ var map = new ol.Map({
 /**
  * Add a click handler to the map to render the popup.
  */
-map.on('dblclick', function(evt) {
+/*map.on('dblclick', function(evt) {
     var feature = map.forEachFeatureAtPixel(evt.pixel,
         function(feature) {
             return feature;
@@ -113,7 +116,7 @@ map.on('dblclick', function(evt) {
             '</code>';
         overlay.setPosition(coordinate)
     }
-});
+});*/
 
 var element = document.getElementById('popup_marker');
 
@@ -124,14 +127,14 @@ var popup = new ol.Overlay({
     offset: [0, -50]
 });
 map.addOverlay(popup);
-/*fetch("api.openweathermap.org/data/2.5/weather?lat=35&lon=139")                 // Käynnistetään haku. Vakiometodi on GET.
+/*fetch("http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID={6a91d7c0abb6707456280e0ce8dd8087}")                 // Käynnistetään haku. Vakiometodi on GET.
     .then(function(vastaus){        // Sitten kun haku on valmis,
         return vastaus.json();      // muutetaan ladattu tekstimuotoinen JSON JavaScript-olioksi
     }).then(function(json){         // Sitten otetaan ladattu data vastaan ja
     console.log(json);            // kutsutaan naytaKuva-funktiota ja lähetetään ladattu data siihen parametrinä.
 }).catch(function(error){           // Jos tapahtuu virhe,
     console.log(error);             // kirjoitetaan virhe konsoliin.
-});*/
+})*/
 
 function content_creator(feature, evt) {
     /*fetch('api.openweathermap.org/data/2.5/weather?lat=' + feature.get('lat') + '&lon=' + feature.get('lon'))                 // Käynnistetään haku. Vakiometodi on GET.
@@ -142,7 +145,7 @@ function content_creator(feature, evt) {
     }).catch(function(error){           // Jos tapahtuu virhe,
         console.log(error);             // kirjoitetaan virhe konsoliin.
     });*/
-    return '<pre>' + feature.get('website') + '</pre>';
+    content.innerHTML = '<a target="_blank" href=\"' + feature.get('website') + '\">' + feature.get('name') + '</a>';
 }
 
 map.on('click', function(evt) {
@@ -150,17 +153,13 @@ map.on('click', function(evt) {
         function(feature) {
             return feature;
         });
+    var pop = map.forEachFeatureAtPixel
     if (feature) {
         var coordinates = feature.getGeometry().getCoordinates();
-        popup.setPosition(coordinates);
-        $(element).attr( 'data-placement', 'top' );
-        $(element).attr( 'data-original-title', '<a href=\"' + feature.get('website') + '\">' + feature.get('name') + '</a>' );
-        $(element).attr( 'data-content', content_creator(feature, evt) );
-        $(element).attr( 'data-html', true );
-        $(element).popover();
-        $(element).popover('show');
+        overlay.setPosition(coordinates);
+        content_creator(feature, evt);
     } else {
-        $(element).popover('destroy');
+        overlay.setPosition(undefined);
     }
 });
 
