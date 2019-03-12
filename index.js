@@ -83,6 +83,10 @@ closer.onclick = function() {
 };
 
 
+//https://api.openrouteservice.org/directions?api_key=5b3ce3597851110001cf6248f52705feaa8f4427b566b518718b452d&coordinates=8.34234,48.23424%7C8.34423,48.26424&profile=driving-car&geometry_format=polyline
+
+
+
 /**
  * Create the map.
  */
@@ -147,6 +151,14 @@ function content_creator(feature, evt) {
     }).catch(function(error){               // Jos tapahtuu virhe,
         console.log(error);             // kirjoitetaan virhe konsoliin.
     });
+    fetch("https://api.openrouteservice.org/directions?api_key=5b3ce3597851110001cf6248f52705feaa8f4427b566b518718b452d&coordinates=24.945831,60.192059%7C" + feature.get('lon') + ',' + feature.get('lat') + "&profile=driving-car&geometry_format=polyline")                 // Käynnistetään haku. Vakiometodi on GET.
+        .then(function(vastaus){        // Sitten kun haku on valmis,
+            return vastaus.json();      // muutetaan ladattu tekstimuotoinen JSON JavaScript-olioksi
+        }).then(function(json){         // Sitten otetaan ladattu data vastaan ja
+        draw_route(json);            // kutsutaan naytaKuva-funktiota ja lähetetään ladattu data siihen parametrinä.
+    }).catch(function(error){           // Jos tapahtuu virhe,
+        console.log(error);             // kirjoitetaan virhe konsoliin.
+    })
 
 }
 
@@ -172,6 +184,37 @@ map.on('click', function(evt) {
         overlay.setPosition(undefined);
     }
 });
+var vectorLayer_2;
+
+function draw_route(json) {
+    if (vectorLayer_2) {
+        map.removeLayer(vectorLayer_2);
+    }
+    var locations = json.routes[0].geometry;
+    console.log(json.routes[0].geometry);
+    //var locations = [[53.44241609, 12], [53.44241894, 20], [53.44242156, 25] /* ... */ ];
+
+    // OpenLayers uses [lon, lat], not [lat, lon] for coordinates
+    /*locations.map(function(l) {
+        return l.reverse();
+    });*/
+
+    var polyline = new ol.geom.LineString(locations);
+    // Coordinates need to be in the view's projection, which is
+    // 'EPSG:3857' if nothing else is configured for your ol.View instance
+    polyline.transform('EPSG:4326', 'EPSG:3857');
+    var feature = new ol.Feature(polyline);
+    var source = new ol.source.Vector();
+    source.addFeature(feature);
+
+    vectorLayer_2 = new ol.layer.Vector({
+        source: source
+    });
+    map.addLayer(vectorLayer_2);
+}
+
+
+
 
 // change mouse cursor when over marker
 /*map.on('pointermove', function(e) {
