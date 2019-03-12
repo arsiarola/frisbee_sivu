@@ -1,9 +1,18 @@
-function makeMarker(lat, lon, name) {
+
+var markerArray = [];
+//markerArray.push(makeMarker(63, 23, 'a', 'b'));
+for (var i = 0; i < markers.length; i++) {
+    if (!(markers[i].latitude === "NULL")) {
+        markerArray.push(makeMarker(parseFloat(markers[i].latitude), parseFloat(markers[i].longitude), markers[i].name, markers[i].website));
+    }
+}
+var vectorLayer = makeVectorLayer(markerArray);
+
+function makeMarker(lat, lon, name, website) {
     var iconFeature = new ol.Feature({
         geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
         name: name,
-        population: 4000,
-        rainfall: 500
+        website: website
     });
 
     var iconStyle = new ol.style.Style({
@@ -31,11 +40,11 @@ function makeVectorLayer (markerArray) {
     });
     return vectorLayer;
 }
-var markerArray = [];
-markerArray.push(makeMarker(60.192059, 24.945831,  'kenttä: helsinki' +'\n'+ 'sää: pekka pouta'));
-markerArray.push(makeMarker(50.192059, 24.945831,  'helsinki'));
-markerArray.push(makeMarker(40.192059, 24.945831,  'helsinki'));
-var vectorLayer = makeVectorLayer(markerArray);
+/*var markerArray = [];
+markerArray.push(makeMarker(60.192059, 24.945831,  'kenttä: helsinki' +'\n'+ 'sää: pekka pouta', ''));
+markerArray.push(makeMarker(50.192059, 24.945831,  'helsinki', ''));
+markerArray.push(makeMarker(40.192059, 24.945831,  'helsinki', ''));
+var vectorLayer = makeVectorLayer(markerArray);*/
 
 /**
  * Elements that make up the popup.
@@ -81,11 +90,10 @@ var map = new ol.Map({
     overlays: [overlay],
     target: 'map',
     view: new ol.View({
-        center: [0, 0],
-        zoom: 2
+        center: ol.proj.transform([26, 65], 'EPSG:4326', 'EPSG:3857'),
+        zoom: 6
     })
 });
-
 
 /**
  * Add a click handler to the map to render the popup.
@@ -116,8 +124,9 @@ var popup = new ol.Overlay({
 map.addOverlay(popup);
 
 function marker_popup_content(feature, evt) {
-    var hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(evt.coordinate));
-    return '<p>' + feature.get('name') + '</p><code>' + hdms + '</code>';
+    //var hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(evt.coordinate));
+    //return '<p>' + feature.get('name') + '</p><code>' + hdms + '</code>';
+    return '<p>' + feature.get('name') + '</p>';
 }
 
 map.on('click', function(evt) {
@@ -141,7 +150,7 @@ map.on('click', function(evt) {
 });
 
 // change mouse cursor when over marker
-map.on('pointermove', function(e) {
+/*map.on('pointermove', function(e) {
     if (e.dragging) {
         $(element).popover('destroy');
         return;
@@ -149,4 +158,4 @@ map.on('pointermove', function(e) {
     var pixel = map.getEventPixel(e.originalEvent);
     var hit = map.hasFeatureAtPixel(pixel);
     map.getTarget().style.cursor = hit ? 'pointer' : '';
-});
+});*/
