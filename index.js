@@ -12,7 +12,9 @@ function makeMarker(lat, lon, name, website) {
     var iconFeature = new ol.Feature({
         geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
         name: name,
-        website: website
+        website: website,
+        lat: lat,
+        lon: lon
     });
 
     var iconStyle = new ol.style.Style({
@@ -122,16 +124,25 @@ var popup = new ol.Overlay({
     offset: [0, -50]
 });
 map.addOverlay(popup);
+/*fetch("api.openweathermap.org/data/2.5/weather?lat=35&lon=139")                 // Käynnistetään haku. Vakiometodi on GET.
+    .then(function(vastaus){        // Sitten kun haku on valmis,
+        return vastaus.json();      // muutetaan ladattu tekstimuotoinen JSON JavaScript-olioksi
+    }).then(function(json){         // Sitten otetaan ladattu data vastaan ja
+    console.log(json);            // kutsutaan naytaKuva-funktiota ja lähetetään ladattu data siihen parametrinä.
+}).catch(function(error){           // Jos tapahtuu virhe,
+    console.log(error);             // kirjoitetaan virhe konsoliin.
+});*/
 
-function marker_popup_content(feature, evt) {
-    //var hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(evt.coordinate));
-    //return '<p>' + feature.get('name') + '</p><code>' + hdms + '</code>';
-    var url = feature.get('website');
-
-    return '<a href=\"' + url + '\">' + feature.get('name') + '</a>';
-    console.log(text);
-    //return '<a href=' + url + '>' + feature.get('name') + '</a>';
-    return '<a href="https://frisbeegolfradat.fi/rata/simon_frisbeegolfrata/">aaa</a>';
+function content_creator(feature, evt) {
+    /*fetch('api.openweathermap.org/data/2.5/weather?lat=' + feature.get('lat') + '&lon=' + feature.get('lon'))                 // Käynnistetään haku. Vakiometodi on GET.
+        .then(function(vastaus){        // Sitten kun haku on valmis,
+            return vastaus.json();      // muutetaan ladattu tekstimuotoinen JSON JavaScript-olioksi
+        }).then(function(json){         // Sitten otetaan ladattu data vastaan ja
+        console.log(json);            // kutsutaan naytaKuva-funktiota ja lähetetään ladattu data siihen parametrinä.
+    }).catch(function(error){           // Jos tapahtuu virhe,
+        console.log(error);             // kirjoitetaan virhe konsoliin.
+    });*/
+    return '<pre>' + feature.get('website') + '</pre>';
 }
 
 map.on('click', function(evt) {
@@ -142,12 +153,11 @@ map.on('click', function(evt) {
     if (feature) {
         var coordinates = feature.getGeometry().getCoordinates();
         popup.setPosition(coordinates);
-        $(element).popover({
-            placement: 'top',
-            html: true,
-            content: marker_popup_content(feature, evt)
-        });
-        //popup.updateSize();
+        $(element).attr( 'data-placement', 'top' );
+        $(element).attr( 'data-original-title', '<a href=\"' + feature.get('website') + '\">' + feature.get('name') + '</a>' );
+        $(element).attr( 'data-content', content_creator(feature, evt) );
+        $(element).attr( 'data-html', true );
+        $(element).popover();
         $(element).popover('show');
     } else {
         $(element).popover('destroy');
