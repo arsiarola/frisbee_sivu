@@ -1,5 +1,7 @@
 'use strict';
 
+var player_pos = [63, 23];
+
 var markerArray = [];
 //markerArray.push(makeMarker(63, 23, 'a', 'b'));
 for (var i = 0; i < markers.length; i++) {
@@ -24,6 +26,30 @@ function makeMarker(lat, lon, name, website) {
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
             src: "img/mark.png",
+            scale: 0.1
+        }))
+    });
+
+    iconFeature.setStyle(iconStyle);
+
+    return iconFeature;
+}
+
+function makeMarker_2(lat, lon, name, website, imgsrc) {
+    var iconFeature = new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
+        name: name,
+        website: website,
+        lat: lat,
+        lon: lon
+    });
+
+    var iconStyle = new ol.style.Style({
+        image: new ol.style.Icon(({
+            anchor: [0.5, 500],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            src: imgsrc,
             scale: 0.1
         }))
     });
@@ -85,7 +111,7 @@ closer.onclick = function() {
 
 //https://api.openrouteservice.org/directions?api_key=5b3ce3597851110001cf6248f52705feaa8f4427b566b518718b452d&coordinates=8.34234,48.23424%7C8.34423,48.26424&profile=driving-car&geometry_format=polyline
 
-
+var markerLayer;
 
 /**
  * Create the map.
@@ -141,6 +167,8 @@ map.addOverlay(popup);
     console.log(error);             // kirjoitetaan virhe konsoliin.
 })*/
 
+//var address = "Multahaankuja 3";
+
 function content_creator(feature, evt) {
     content.innerHTML = '<a target="_blank" href=\"' + feature.get('website') + '\">' + feature.get('name') + '</a>';
     fetch('http://api.openweathermap.org/data/2.5/weather?lat=' + feature.get('lat') + '&lon=' + feature.get('lon') + '&APPID=aad7575441a6804bb37fbe37bbf698bf')                 // Käynnistetään haku. Vakiometodi on GET.
@@ -151,15 +179,38 @@ function content_creator(feature, evt) {
     }).catch(function(error){               // Jos tapahtuu virhe,
         console.log(error);             // kirjoitetaan virhe konsoliin.
     });
-    fetch("https://api.openrouteservice.org/directions?api_key=5b3ce3597851110001cf6248f52705feaa8f4427b566b518718b452d&coordinates=24.945831,60.192059%7C" + feature.get('lon') + ',' + feature.get('lat') + "&profile=driving-car&geometry_format=polyline")                 // Käynnistetään haku. Vakiometodi on GET.
+
+    fetch("https://api.openrouteservice.org/directions?api_key=5b3ce3597851110001cf6248f52705feaa8f4427b566b518718b452d&coordinates=" + player_pos[1] + ',' + player_pos[0] + "%7C" + feature.get('lon') + ',' + feature.get('lat') + "&profile=driving-car&geometry_format=polyline")                 // Käynnistetään haku. Vakiometodi on GET.
         .then(function(vastaus){        // Sitten kun haku on valmis,
             return vastaus.json();      // muutetaan ladattu tekstimuotoinen JSON JavaScript-olioksi
         }).then(function(json){         // Sitten otetaan ladattu data vastaan ja
-        draw_route(json);            // kutsutaan naytaKuva-funktiota ja lähetetään ladattu data siihen parametrinä.
+        draw_route(json, feature);            // kutsutaan naytaKuva-funktiota ja lähetetään ladattu data siihen parametrinä.
     }).catch(function(error){           // Jos tapahtuu virhe,
         console.log(error);             // kirjoitetaan virhe konsoliin.
     })
 
+    /*var address = document.getElementById("address").value;
+    console.log(address);
+
+    fetch("https://nominatim.openstreetmap.org/search/" + address + "?format=json&addressdetails=1&limit=1&polygon_svg=1")                 // Käynnistetään haku. Vakiometodi on GET.
+        .then(function(vastaus){        // Sitten kun haku on valmis,
+            return vastaus.json();      // muutetaan ladattu tekstimuotoinen JSON JavaScript-olioksi
+        }).then(function(json){         // Sitten otetaan ladattu data vastaan ja
+        get_route_data(json, feature);            // kutsutaan naytaKuva-funktiota ja lähetetään ladattu data siihen parametrinä.
+    }).catch(function(error){           // Jos tapahtuu virhe,
+        console.log(error);             // kirjoitetaan virhe konsoliin.
+    })*/
+}
+
+function get_route_data(json, feature) {
+    fetch("https://api.openrouteservice.org/directions?api_key=5b3ce3597851110001cf6248f52705feaa8f4427b566b518718b452d&coordinates=" + json[0]['lon'] + ',' + json[0]['lat'] + "%7C" + feature.get('lon') + ',' + feature.get('lat') + "&profile=driving-car&geometry_format=polyline")                 // Käynnistetään haku. Vakiometodi on GET.
+        .then(function(vastaus){        // Sitten kun haku on valmis,
+            return vastaus.json();      // muutetaan ladattu tekstimuotoinen JSON JavaScript-olioksi
+        }).then(function(json){         // Sitten otetaan ladattu data vastaan ja
+        draw_route(json, feature);            // kutsutaan naytaKuva-funktiota ja lähetetään ladattu data siihen parametrinä.
+    }).catch(function(error){           // Jos tapahtuu virhe,
+        console.log(error);             // kirjoitetaan virhe konsoliin.
+    })
 }
 
 function weather_creator(json) {    // 273.16
@@ -175,15 +226,26 @@ map.on('click', function(evt) {
         function(feature) {
             return feature;
         });
-    var pop = map.forEachFeatureAtPixel
-    if (feature) {
+    if (feature && feature.get('website') != 'empty') {
         var coordinates = feature.getGeometry().getCoordinates();
         overlay.setPosition(coordinates);
         content_creator(feature, evt);
     } else {
+        map.removeLayer(markerLayer);
+        map.removeLayer(vectorLayer_2);
+        var coordinate = evt.coordinate;
+        var coords = ol.proj.toLonLat(coordinate);
+        var markerArray = [];
+        markerArray.push(makeMarker_2(coords[1], coords[0],"aa", "empty"));
+        markerLayer = makeVectorLayer(markerArray);
+        map.addLayer(markerLayer);
+        player_pos[0] = coords[1];
+        player_pos[1] = coords[0];
+
         overlay.setPosition(undefined);
     }
 });
+
 var vectorLayer_2;
 
 function draw_route(json) {
@@ -212,9 +274,6 @@ function draw_route(json) {
     });
     map.addLayer(vectorLayer_2);
 }
-
-
-
 
 // change mouse cursor when over marker
 /*map.on('pointermove', function(e) {
