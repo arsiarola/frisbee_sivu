@@ -236,7 +236,7 @@ map.on('click', function(evt) {
         var coordinate = evt.coordinate;
         var coords = ol.proj.toLonLat(coordinate);
         var markerArray = [];
-        markerArray.push(makeMarker_2(coords[1], coords[0],"aa", "empty"));
+        markerArray.push(makeMarker_2(coords[1], coords[0],"aa", "empty", "img/userMark.png"));
         markerLayer = makeVectorLayer(markerArray);
         map.addLayer(markerLayer);
         player_pos[0] = coords[1];
