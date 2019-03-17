@@ -55,5 +55,11 @@ function getVariInfo() {
     return parseInt(JSON.parse(variInfo));
 }
 
+function viewInNewWindow(vidsrc) {
+    let naytonLeveys = screen.width * (2/3);
+    let naytonKorkeus = screen.height * (2/3);
+    let viewin = window.open(vidsrc, 'viewin', `width=${naytonLeveys}, height=${naytonKorkeus}`);
+}
+
 teemanVaihtoHome();
 teemanVaihtoHome();
