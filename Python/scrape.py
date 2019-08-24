@@ -1,3 +1,4 @@
+import os
 import re
 import requests
 import json
@@ -26,7 +27,7 @@ for lista in list:
     for li in ratasoup.findAll("li", {"class": "course_info_right"}):
         for a in li.find_all('a', href=True):
             lista.update(coordinates = a['href'])
-    print(i, ": ", lista["name"], "done", sep="")
+    print(i, ": ", lista["name"], " done", sep="")
     i += 1
 
 # function to check if openstreet antaa coordinaatit
@@ -89,6 +90,12 @@ for lista in list:
                 result[i].update(latitude = lat)
                 result[i].update(longitude = lon)
             i += 1
+
+# rename old json files if they exist
+if os.path.exists("data.js") == True:
+        os.rename("data.js", "dataOld.js")
+if os.path.exists("corrupted.js") == True:
+        os.rename("corrupted.js", "corruptedOld.js")
 
 string = "var markers = "
 json_result = json.dumps(result, indent=2)
